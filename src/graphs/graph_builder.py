@@ -3,6 +3,8 @@ from src.llms.groqllm import GroqLLM
 
 from src.state.blogstate import BlogState
 
+from src.nodes.blog_node import BlogNode
+
 class GraphBuilder:
     def __init__(self,llm):
         self.llm = llm
@@ -13,8 +15,10 @@ class GraphBuilder:
         Build a graph to generate blog based on the topic
         """
 
-        self.graph.add_node("title",)
-        self.graph.add_node("content",)
+        self.blog_node_obj = BlogNode(self.llm)
+
+        self.graph.add_node("title",self.blog_node_obj.generate_blog_title)
+        self.graph.add_node("content",self.blog_node_obj.generate_blog_content)
 
         self.graph.add_edge(START, "title")
         self.graph.add_edge("title", "content")
