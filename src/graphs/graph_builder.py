@@ -36,9 +36,9 @@ class GraphBuilder:
 
         self.graph.add_node("title",self.blog_node_obj.generate_blog_title)
         self.graph.add_node("content",self.blog_node_obj.generate_blog_content)
-        self.graph.add_node("route",)
-        self.graph.add_node("hindi_translation",)
-        self.graph.add_node("french_translation",)
+        self.graph.add_node("route",self.blog_node_obj.route)
+        self.graph.add_node("hindi_translation",lambda state: self.blog_node_obj.translation({**state, "current_language": "hindi"}))
+        self.graph.add_node("french_translation",lambda state: self.blog_node_obj.translation({**state, "current_language": "french"}))
 
 
         #Edges
@@ -69,6 +69,7 @@ class GraphBuilder:
 #Below code if for langgraph testing purpose only
 llm = GroqLLM().get_llm()
 graph_builder = GraphBuilder(llm)
-g=graph_builder.build_topic_graph().compile()
+# g=graph_builder.build_topic_graph().compile()
+g = graph_builder.build_language_graph().compile()
 
 
