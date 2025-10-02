@@ -32,3 +32,10 @@ class GraphBuilder:
         return self.graph.compile()
 
             
+
+#Below code if for langgraph testing purpose only
+llm = GroqLLM().get_llm()
+graph_builder = GraphBuilder(llm)
+g=graph_builder.build_topic_graph().compile()
+
+
