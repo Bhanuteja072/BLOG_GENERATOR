@@ -34,3 +34,40 @@ AI Blog Generator creates SEO-friendly blog titles and long-form blog content fr
      GROQ_API_KEY=your_api_key_here
 
    Example `.env`:
+
+```
+GROQ_API_KEY=your_api_key_here
+```
+
+5. Run the app:
+   streamlit run app.py
+
+6. Open displayed URL (usually http://localhost:8501) in your browser.
+
+## Files of interest
+- app.py — Streamlit UI (main entry)
+- src/llms/groqllm.py — LLM factory / configuration
+- src/graphs/graph_builder.py — Builds langgraph StateGraph(s)
+- src/nodes/blog_node.py — Node handlers: title, content, translation
+- src/state/blogstate.py — Pydantic / TypedDict state models
+- langgraph.json — graph spec used for testing / packaging
+
+## Important notes & troubleshooting
+- Graph compilation: call `graph.compile()` before invoking. Use `compiled.invoke({...})`.
+- Do not leave test/compile code at module import time in `graph_builder.py` — it should not compile graphs on import.
+- Model/tooling: some features (function-calling / structured output) require provider/model support.
+  - If your provider/model does not support function/tool calling, remove structured-output calls and parse plain-text responses.
+- If you see `ValueError: Graph must have an entrypoint`, ensure your graph has at least one edge from `START` to a node.
+- If you see `AttributeError: 'StateGraph' object has no attribute 'invoke'`, you are calling `invoke` on the uncompiled graph object — compile it first.
+
+## Minimal environment checklist before running
+- .venv active
+- requirements installed
+- GROQ_API_KEY set (or configure in `src/llms/groqllm.py`)
+- `src/graphs/graph_builder.py` has no side-effect compile calls at import
+
+## Contributing
+- Create a branch per feature/fix.
+- Run existing code locally and keep changes focused.
+- Open a PR with description and test steps.
+
