@@ -2,8 +2,8 @@ from src.state.blogstate import BlogState
 from src.state.blogstate import Blog
 from langchain_core.messages import SystemMessage, HumanMessage
 class BlogNode:
-    def __init__(Self,llm):
-        Self.llm = llm
+    def __init__(self, llm):
+        self.llm = llm
 
     def generate_blog_title(self, state: BlogState):
         """
@@ -48,8 +48,10 @@ class BlogNode:
             HumanMessage(translation_prompt.format(current_language=state["current_language"], blog_content=blog_content))
 
         ]
-        translation_content = self.llm.invoke(msg)
-        return {"blog" : {"content" : translation_content}}
+        translation_response = self.llm.invoke(msg)
+        # ensure we return text content (consistent with other nodes)
+        translated_text = getattr(translation_response, "content", translation_response)
+        return {"blog" : {"content" : translated_text}}
     
 
     def route(self,state:BlogState):
