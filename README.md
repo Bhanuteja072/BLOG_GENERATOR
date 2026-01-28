@@ -4,6 +4,7 @@ Professional, minimal README for the AI Blog Generator project.
 
 ## Overview
 AI Blog Generator creates SEO-friendly blog titles and long-form blog content from a short topic. Optionally translates generated content to supported languages (hindi, french). The app uses a graph-based node runner (langgraph) and an LLM client (Groq) to orchestrate generation steps.
+Live demo: https://ai-blog-generatorr.streamlit.app/
 
 ## Features
 - Generate SEO-friendly blog title and long-form content from a topic.
